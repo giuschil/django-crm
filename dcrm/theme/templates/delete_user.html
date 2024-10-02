@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Elimina Utente</title>
+</head>
+<body>
+    <h1>Sei sicuro di voler eliminare questo utente?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+        <a href="{% url 'home' %}">Annulla</a>
+    </form>
+</body>
+</html>

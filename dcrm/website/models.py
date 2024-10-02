@@ -9,6 +9,8 @@ class WebsiteUser(models.Model):
     email = models.EmailField()
     role = models.CharField(max_length=255)
     city = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
+
     
     class Meta:
         db_table = 'website_user'  # Specifica il nome della tabella nel database
