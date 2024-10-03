@@ -1,11 +1,7 @@
 from django import forms
-from .models import WebsiteUser
+from .models import WebsiteUser,WebsiteClient
 from django.contrib.auth.models import User  # Importa il modello User da django.contrib.auth.models
 
-class WebsiteUserForm(forms.ModelForm):
-    class Meta:
-        model = WebsiteUser
-        fields = ['name', 'email', 'role', 'city', 'country']
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -16,4 +12,32 @@ class UserForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class WebsiteUserForm(forms.ModelForm):
+    class Meta:
+        model = WebsiteUser
+        fields = ['name', 'email', 'role', 'city', 'country']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'role': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class WebsiteClientForm(forms.ModelForm):
+    class Meta:
+        model = WebsiteClient
+        fields = ['name', 'lastname', 'email', 'role', 'city', 'country','image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'lastname': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'role': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+
         }

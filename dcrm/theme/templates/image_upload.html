@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Upload Immagine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .img-circle {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Test Upload Immagine</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="id_image">Image</label>
+                <input type="file" class="form-control d-none" id="id_image" name="image">
+                <button type="button" class="btn btn-primary mt-2" id="update-image-btn">Aggiorna Immagine</button>
+            </div>
+            <div class="mt-3 text-center" id="image-preview-container" style="display: none;">
+                <p>Immagine caricata:</p>
+                <img id="image-preview" class="img-circle" alt="Immagine caricata">
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success">Salva</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM completamente caricato e analizzato');
+            
+            const updateImageButton = document.getElementById('update-image-btn');
+            const imageInput = document.getElementById('id_image');
+            const imagePreviewContainer = document.getElementById('image-preview-container');
+            const imagePreview = document.getElementById('image-preview');
+
+            if (updateImageButton) {
+                console.log('Trovato update-image-btn');
+            } else {
+                console.error('Elemento non trovato: update-image-btn');
+            }
+
+            if (imageInput) {
+                console.log('Trovato id_image');
+            } else {
+                console.error('Elemento non trovato: id_image');
+            }
+
+            if (updateImageButton && imageInput) {
+                updateImageButton.addEventListener('click', function() {
+                    console.log('Pulsante Aggiorna Immagine cliccato');
+                    imageInput.click();
+                });
+
+                imageInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            imagePreviewContainer.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
