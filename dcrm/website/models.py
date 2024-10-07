@@ -39,3 +39,15 @@ class WebsiteClient(models.Model):
 
     def __str__(self):
         return f'{self.name} {self.lastname}'
+
+
+
+class Store(models.Model):
+    nome_store = models.CharField(max_length=255)
+    indirizzo = models.CharField(max_length=255)
+    citta = models.CharField(max_length=100)
+    latitudine = models.FloatField()
+    longitudine = models.FloatField()
+
+    def __str__(self):
+        return self.nome_store

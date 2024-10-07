@@ -79,12 +79,3 @@ body.dark-mode .btn-secondary {
     width: 100%;
     height: auto;
 }
-
-
-.text-body-secondary-dark {
-    color: #ffcc00; /* Colore che risalta con il dark mode */
-}
-
-body.dark-mode .text-body-secondary {
-    color: #ffcc00; /* Colore che risalta con il dark mode */
-}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Modifica Store{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Modifica Store</h1>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="nome_store">Nome Store</label>
+            {{ form.nome_store|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="indirizzo">Indirizzo</label>
+            {{ form.indirizzo|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="citta">Città</label>
+            {{ form.citta|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="latitudine">Latitudine</label>
+            {{ form.latitudine|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="longitudine">Longitudine</label>
+            {{ form.longitudine|add_class:"form-control" }}
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Salva Modifiche</button>
+            <button type="button" class="btn btn-warning" onclick="window.location.href='{% url 'store_list' %}'">Annulla</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

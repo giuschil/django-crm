@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from website.views import store_list, add_store
 
 
 urlpatterns = [
@@ -20,6 +21,11 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.user_register, name='register'),
     path('image_upload/', views.image_upload, name='upload'),
+    path('stores/', views.store_list, name='store_list'),
+    path('stores/add/', views.add_store, name='add_store'),
+    path('stores/edit/<int:store_id>/', views.edit_store, name='edit_store'),  # Aggiungi questo pattern URL
+    path('stores/delete/<int:store_id>/', views.delete_store, name='delete_store'),  # Aggiungi questo pattern URL
+
 ]
 
 

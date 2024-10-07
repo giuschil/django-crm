@@ -7,12 +7,13 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import WebsiteClient
 from .forms import WebsiteClientForm
 from django.db.models import Sum
-
-
-
 from .models import WebsiteUser, WebsiteClient
-from .forms import WebsiteUserForm, WebsiteClientForm, UserForm
+from .forms import WebsiteUserForm, WebsiteClientForm, UserForm,StoreForm
 from django.core.files.storage import FileSystemStorage
+from .utils import get_coordinates
+from .models import Store
+import json
+
 
 
 def home(request):
@@ -53,10 +54,11 @@ def dashboard(request):
     clients = WebsiteClient.objects.all()
     total_clients = WebsiteClient.objects.count()
     sum_clients = WebsiteClient.objects.aggregate(Sum('id'))['id__sum']
+    total_stores = Store.objects.count()
     return render(request, 'dashboard.html', {'users': users, 
                                               'clients': clients,
                                               'total_clients': total_clients,
-                                              'sum_clients': sum_clients})
+                                              'sum_clients': sum_clients, 'total_stores': total_stores})
 
 @login_required
 def edit_user(request, id):
@@ -91,7 +93,6 @@ def insert_user(request):
     return render(request, 'insert_user.html', {'form': form})
 
 @login_required
-
 def edit_client(request, id):
     client = get_object_or_404(WebsiteClient, id=id)
     if request.method == 'POST':
@@ -122,6 +123,77 @@ def insert_client(request):
     else:
         form = WebsiteClientForm()
     return render(request, 'insert_client.html', {'form': form})
+
+def add_store(request):
+    if request.method == 'POST':
+        nome_store = request.POST.get('nome_store')
+        indirizzo = request.POST.get('indirizzo')
+        citta = request.POST.get('citta')
+        latitudine = request.POST.get('latitudine')
+        longitudine = request.POST.get('longitudine')
+
+        # Log di debug
+        print(f"Nome Store: {nome_store}")
+        print(f"Indirizzo: {indirizzo}")
+        print(f"Città: {citta}")
+        print(f"Latitudine: {latitudine}")
+        print(f"Longitudine: {longitudine}")
+
+        # Verifica che tutti i campi siano presenti
+        if nome_store and indirizzo and citta and latitudine and longitudine:
+            # Salva il nuovo store nel database
+            Store.objects.create(
+                nome_store=nome_store,
+                indirizzo=indirizzo,
+                citta=citta,
+                latitudine=latitudine,
+                longitudine=longitudine
+            )
+            return redirect('store_list')  # Assicurati che 'store_list' sia il nome corretto della tua vista
+        else:
+            # Gestisci il caso di campi mancanti
+            return render(request, 'add_store.html', {'error': 'Tutti i campi sono obbligatori.'})
+    
+    return render(request, 'add_store.html')
+
+
+@login_required
+def delete_store(request, store_id):
+    store = get_object_or_404(Store, id=store_id)
+    if request.method == 'POST':
+        store.delete()
+        return redirect('store_list')
+    return render(request, 'store_list.html')
+
+@login_required
+def edit_store(request, store_id):
+    store = get_object_or_404(Store, id=store_id)
+    if request.method == 'POST':
+        form = StoreForm(request.POST, instance=store)
+        if form.is_valid():
+            form.save()
+            return redirect('store_list')
+    else:
+        form = StoreForm(instance=store)
+    return render(request, 'edit_store.html', {'form': form})
+
+
+@login_required
+def store_list(request):
+    stores = Store.objects.all()
+    store_data = [
+        {
+            'nome_store': store.nome_store,
+            'indirizzo': store.indirizzo,
+            'citta': store.citta,
+            'latitudine': store.latitudine,
+            'longitudine': store.longitudine
+        }
+        for store in stores
+    ]
+    # Log di debug
+    #print(f"Store Data: {store_data}")
+    return render(request, 'store_list.html', {'stores': stores, 'stores_json': json.dumps(store_data)})
 
 def user_login(request):
     if request.method == 'POST':
