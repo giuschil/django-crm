@@ -12,12 +12,72 @@ from .forms import WebsiteUserForm, WebsiteClientForm, UserForm,StoreForm
 from django.core.files.storage import FileSystemStorage
 from .utils import get_coordinates
 from .models import Store
+from .models import Hotel
+from django.core.serializers import serialize
+from pymongo import MongoClient
+from django.core.paginator import Paginator
+from django.shortcuts import render
+
 import json
 
+def get_total_hotels():
+    uri = "mongodb+srv://giusschillaci:4eym87kCSADBpqiU@giuschil-cluster0.s29hm.mongodb.net/giuschil-hotel?retryWrites=true&w=majority"
+    client = MongoClient(uri)
+    try:
+        db = client['giuschil-hotel']
+        collection = db['hotel']
+        total_hotels = collection.count_documents({})
+        return total_hotels
+    except Exception as e:
+        print("Errore di connessione a MongoDB:", e)
+        return 0
+    finally:
+        client.close()
 
 
 def home(request):
     return render(request, 'home.html')
+
+
+
+
+@login_required
+def hotels_list(request):
+    # URI di connessione a MongoDB
+    uri = "mongodb+srv://giusschillaci:4eym87kCSADBpqiU@giuschil-cluster0.s29hm.mongodb.net/giuschil-hotel?retryWrites=true&w=majority"
+
+    # Crea un client MongoDB
+    client = MongoClient(uri)
+
+    # Testa la connessione e scarica i dati
+    try:
+        # Ottieni il database
+        db = client['giuschil-hotel']
+        # Ottieni la collezione
+        collection = db['hotel']
+        
+        # Recupera tutti i documenti dalla collezione
+        hotels = list(collection.find())
+        
+        # Converti ObjectId in stringhe
+        for hotel in hotels:
+            hotel['_id'] = str(hotel['_id'])
+    except Exception as e:
+        pass
+    finally:
+        # Chiudi la connessione
+        client.close()
+
+    # Paginazione
+    paginator = Paginator(hotels, 6)  # Mostra 6 hotel per pagina
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Serializza i dati degli hotel della pagina corrente in JSON
+    hotels_json = json.dumps(list(page_obj))
+
+    return render(request, 'hotels_list.html', {'page_obj': page_obj, 'hotels_json': hotels_json})
+
 
 @login_required
 def image_upload(request):
@@ -55,10 +115,13 @@ def dashboard(request):
     total_clients = WebsiteClient.objects.count()
     sum_clients = WebsiteClient.objects.aggregate(Sum('id'))['id__sum']
     total_stores = Store.objects.count()
+    total_hotels = get_total_hotels()  
     return render(request, 'dashboard.html', {'users': users, 
                                               'clients': clients,
                                               'total_clients': total_clients,
-                                              'sum_clients': sum_clients, 'total_stores': total_stores})
+                                              'sum_clients': sum_clients, 
+                                              'total_stores': total_stores,
+                                              'total_hotels': total_hotels})
 
 @login_required
 def edit_user(request, id):

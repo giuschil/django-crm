@@ -25,6 +25,7 @@ urlpatterns = [
     path('stores/add/', views.add_store, name='add_store'),
     path('stores/edit/<int:store_id>/', views.edit_store, name='edit_store'),  # Aggiungi questo pattern URL
     path('stores/delete/<int:store_id>/', views.delete_store, name='delete_store'),  # Aggiungi questo pattern URL
+    path('hotels/', views.hotels_list, name='hotels_list'),
 
 ]
 

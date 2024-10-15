@@ -40,7 +40,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "dcrm.urls"
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [
@@ -59,7 +58,6 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = "dcrm.wsgi.application"
 
 # Database
@@ -71,6 +69,14 @@ DATABASES = {
         "PASSWORD": "Giuschil@040291",
         "HOST": "localhost",
         "PORT": "3306",
+    },
+    'mongodb': {
+        'ENGINE': 'djongo',
+        'NAME': 'giuschil-hotel',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://giusschillaci:4eym87kCSADBpqiU@giuschil-cluster0.s29hm.mongodb.net/giuschil-hotel?retryWrites=true&w=majority',
+        }
     }
 }
 
@@ -96,7 +102,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-
 # Altre configurazioni
 
 STATIC_URL = '/static/'
@@ -109,7 +114,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
-
 
 # Aggiungi queste impostazioni per gestire i file media
 MEDIA_URL = '/media/'

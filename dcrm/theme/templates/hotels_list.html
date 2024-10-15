@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}<div class="container">
+    <h1>Lista degli Hotel</h1>
+    <div class="row">
+        <!-- Colonna sinistra: Lista degli hotel -->
+        <div class="col-md-6">
+            <div class="row">
+                {% for hotel in page_obj %}
+                <div class="col-md-12">
+                    <div class="card mb-4 shadow" style="border: none;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="{{ hotel.img }}" class="card-img" alt="{{ hotel.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ hotel.name }}</h5>
+                                    <p class="card-text">{{ hotel.address }}</p>
+                                    <a href="{{ hotel.link }}" class="btn btn-primary" target="_blank">Visita</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Paginazione -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Colonna destra: Mappa -->
+        <div class="col-md-6">
+            <div id="map" style="height: 100%; min-height: 500px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Aggiungi i CSS e JS di Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var map = L.map('map').setView([41.8719, 12.5674], 6); // Centra la mappa sull'Italia
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var bounds = L.latLngBounds();
+
+        var hotels = JSON.parse('{{ hotels_json|escapejs }}');
+        hotels.forEach(function(hotel) {
+            var lat = parseFloat(hotel.geodata.latitude);
+            var lng = parseFloat(hotel.geodata.longitude);
+
+            // Controlla se latitudine e longitudine sono validi
+            if (!isNaN(lat) && !isNaN(lng)) {
+                var position = [lat, lng];
+                var marker = L.marker(position).addTo(map)
+                    .bindPopup('<b>' + hotel.name + '</b><br>' + hotel.address);
+
+                bounds.extend(position);
+            }
+        });
+
+        if (bounds.isValid()) {
+            map.fitBounds(bounds);
+        } else {
+            map.setView([41.8719, 12.5674], 6); // Centra la mappa sull'Italia se non ci sono marker validi
+        }
+    });
+</script>
+{% endblock %}

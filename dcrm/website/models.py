@@ -51,3 +51,18 @@ class Store(models.Model):
 
     def __str__(self):
         return self.nome_store
+
+
+class Hotel(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    link = models.URLField()
+    img = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'mongodb'
