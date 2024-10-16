@@ -19,3 +19,6 @@ Procfile
 
 # macOS
 .DS_Store
+
+# Virtual environment
+django-crm/
