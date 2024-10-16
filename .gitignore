@@ -1,0 +1,24 @@
+# Python
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+django-crm/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+
+# Heroku
+Procfile
+
+# macOS
+.DS_Store
+
+# Virtual environment
+django-crm/
