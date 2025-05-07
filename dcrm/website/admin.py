@@ -1,17 +1,12 @@
 from django.contrib import admin
-from .models import WebsiteUser, WebsiteClient, Store, Hotel
+from .models import WebsiteUser, WebsiteClient, Store
 
-# Registra i modelli
 admin.site.register(WebsiteUser)
-admin.site.register(WebsiteClient)
-admin.site.register(Store)
-admin.site.register(Hotel)
 
 @admin.register(WebsiteClient)
 class WebsiteClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'lastname', 'email', 'role', 'city', 'country')
     search_fields = ('name', 'lastname', 'email', 'role', 'city', 'country')
-
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
