@@ -7,3 +7,4 @@ django-widget-tweaks
 requests
 django-cors-headers
 django-filter
+psycopg2

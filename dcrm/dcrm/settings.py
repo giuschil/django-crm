@@ -67,12 +67,12 @@ WSGI_APPLICATION = "dcrm.wsgi.application"
 # Database
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "crm",
-        "USER": "root",
-        "PASSWORD": "Giuschil@040291",
-        "HOST": "localhost",
-        "PORT": "3306",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "crm_ne3u",  # Nome del database
+        "USER": "root",      # Nome utente del database
+        "PASSWORD": "SyvDPefOVDUCnsEuo6RECOWhOfaTWM4w",  # Password del database
+        "HOST": "dpg-d0di0e2dbo4c738iol6g-a",  # Host del database (senza il prefisso 'postgresql://')
+        "PORT": "5432",      # Porta predefinita di PostgreSQL
     },
     'mongodb': {
         'ENGINE': 'djongo',
