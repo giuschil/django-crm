@@ -5,7 +5,7 @@ from .models import Hotel
 def load_hotels_data():
     try:
         # Percorso assoluto del file JSON
-        json_file_path = Path('/Users/giuseppe/Desktop/django-crm/dcrm/hotels_data_all.json')
+        json_file_path = Path('/dcrm/hotels_data_all.json')
         print(f"Loading data from {json_file_path}")
         
         with open(json_file_path, 'r') as file:
