@@ -13,7 +13,11 @@ SECRET_KEY = "django-insecure-b!c#7)im&=s6^p*sxe7#l%uo*p6ms(2n)c3ao4s%if8h7g_i_=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'dcrm-wkn3.onrender.com',  # Dominio del tuo servizio su Render
+    'localhost',               # Per test locali
+    '127.0.0.1',               # Per test locali
+]
 
 # Application definition
 
