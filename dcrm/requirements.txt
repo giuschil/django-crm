@@ -8,3 +8,5 @@ requests
 django-cors-headers
 django-filter
 psycopg2
+pillow
+django-extensions
