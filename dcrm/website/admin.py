@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import WebsiteUser,WebsiteClient,Store
+from .models import WebsiteUser, WebsiteClient, Store, Hotel
 
+# Registra i modelli
 admin.site.register(WebsiteUser)
-
+admin.site.register(WebsiteClient)
+admin.site.register(Store)
+admin.site.register(Hotel)
 
 @admin.register(WebsiteClient)
 class WebsiteClientAdmin(admin.ModelAdmin):
