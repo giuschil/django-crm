@@ -1,0 +1,81 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.min-vh-100 {
+    min-height: 100vh !important;
+}
+
+.flex-grow-1 {
+    flex-grow: 1 !important;
+}
+
+footer {
+    background-color: #343a40; /* bg-dark */
+    color: #fff; /* text-white */
+    text-align: center;
+    padding: 1rem 0; /* py-3 */
+    margin-top: 1rem; /* mt-4 */
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode .navbar, body.dark-mode footer {
+    background-color: #1f1f1f;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #3a3a3a;
+    border-color: #3a3a3a;
+}
+
+.custom-username-color {
+    color: #34de37; /* Sostituisci con il colore desiderato */
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.img-circle {
+    width: 150px; /* Dimensione fissa */
+    height: 150px; /* Dimensione fissa */
+    border-radius: 50%; /* Rende l'immagine circolare */
+    object-fit: cover; /* Assicura che l'immagine riempia il contenitore */
+}
+
+.img-custom {
+    width: 50px;  /* Larghezza fissa */
+    height: 50px; /* Altezza fissa */
+    object-fit: cover;
+    border: 2px solid #ddd; /* Colore del bordo */
+}
+
+.circle-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-img img {
+    width: 100%;
+    height: auto;
+}
