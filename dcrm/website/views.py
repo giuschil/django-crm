@@ -34,6 +34,19 @@ def get_total_hotels():
     finally:
         client.close()
 
+def get_total_users():
+    uri = "mongodb+srv://giusschillaci:4eym87kCSADBpqiU@giuschil-cluster0.s29hm.mongodb.net/sample_mflix?retryWrites=true&w=majority"
+    client = MongoClient(uri)
+    try:
+        db = client['sample_mflix']
+        collection = db['users']
+        total_users = collection.count_documents({})
+        return total_users
+    except Exception as e:
+        print("Errore di connessione a MongoDB:", e)
+        return 0
+    finally:
+        client.close()
 
 def home(request):
     return render(request, 'home.html')
@@ -113,13 +126,15 @@ def dashboard(request):
     users = WebsiteUser.objects.all()
     clients = WebsiteClient.objects.all()
     total_clients = WebsiteClient.objects.count()
-    sum_clients = WebsiteClient.objects.aggregate(Sum('id'))['id__sum']
+    total_users = get_total_users()
+    #sum_clients = WebsiteClient.objects.aggregate(Sum('id'))['id__sum']
     total_stores = Store.objects.count()
     total_hotels = get_total_hotels()  
     return render(request, 'dashboard.html', {'users': users, 
                                               'clients': clients,
                                               'total_clients': total_clients,
-                                              'sum_clients': sum_clients, 
+                                              #'sum_clients': sum_clients,
+                                              'total_users': total_users,
                                               'total_stores': total_stores,
                                               'total_hotels': total_hotels})
 

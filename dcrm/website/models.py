@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class WebsiteUser(models.Model):
     # Definisci i campi che corrispondono alle colonne della tua tabella
     id = models.AutoField(primary_key=True)  # Se la tua tabella ha un campo ID auto-incrementale
