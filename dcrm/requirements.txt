@@ -10,3 +10,4 @@ django-filter
 psycopg2
 pillow
 django-extensions
+whitenoise
