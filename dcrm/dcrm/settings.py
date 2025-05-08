@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-b!c#7)im&=s6^p*sxe7#l%uo*p6ms(2n)c3ao4s%if8h7g_i_="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'dcrm-wkn3.onrender.com',  # Dominio del tuo servizio su Render
@@ -110,8 +110,8 @@ USE_TZ = True
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = 'static/'
-STATIC_ROOT = "dcrm/staticfiles"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # This production code might break development mode, so we check whether we're in DEBUG mode
