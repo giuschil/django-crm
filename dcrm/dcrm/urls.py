@@ -4,6 +4,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from website.views import store_list, add_store
+from django.views.generic import TemplateView
+
 
 
 urlpatterns = [
@@ -26,6 +28,8 @@ urlpatterns = [
     path('stores/edit/<int:store_id>/', views.edit_store, name='edit_store'),  # Aggiungi questo pattern URL
     path('stores/delete/<int:store_id>/', views.delete_store, name='delete_store'),  # Aggiungi questo pattern URL
     path('hotels/', views.hotels_list, name='hotels_list'),
+    path('test-logo/', TemplateView.as_view(template_name='test_logo.html'), name='test_logo'),
+
 
 ]
 
